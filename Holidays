@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "758905ba-080e-46f3-9d54-e1ac8e13e05c",
+		"name": "Holidays API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24084634",
+		"_collection_link": "https://cloudy-star-320932.postman.co/workspace/semana-1~412263d3-6866-4e18-bfd7-c945100c05d3/collection/24084634-758905ba-080e-46f3-9d54-e1ac8e13e05c?action=share&source=collection_link&creator=24084634"
+	},
+	"item": [
+		{
+			"name": "Get holidays",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const newYear = parseInt(_.random(1990,2026));",
+							"pm.environment.set(\"year\",newYear);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validate that country code is the same as env country\",function(){",
+							"    const expectedCountry = pm.environment.get(\"country\");",
+							"    const response = pm.response.json();",
+							"",
+							"    response.forEach(holiday => {",
+							"        pm.expect(holiday.countryCode).to.eq(expectedCountry);",
+							"        console.log(`Now validating ${holiday.name} countryCode to be ${expectedCountry}`);",
+							"    }",
+							"    );",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{year}}/{{country}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{year}}",
+						"{{country}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
